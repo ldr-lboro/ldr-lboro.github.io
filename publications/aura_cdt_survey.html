@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA CDT — Applicant Survey Results</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f7f6; color: #1a1a2e; min-height: 100vh; }
+
+  .header { background: #fff; border-bottom: 3px solid #1d7874; padding: 20px 32px; display: flex; align-items: center; gap: 14px; }
+  .header-bar { width: 5px; height: 44px; background: #1d7874; border-radius: 3px; flex-shrink: 0; }
+  .header h1 { font-size: 21px; font-weight: 700; color: #1a1a2e; }
+  .header p { font-size: 13px; color: #666; margin-top: 3px; }
+
+  .tabs { display: flex; gap: 8px; padding: 20px 32px 0; }
+  .tab-btn {
+    padding: 9px 20px; border-radius: 20px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: all 0.15s;
+    background: #e0e8e7; color: #444;
+  }
+  .tab-btn.active { background: #1d7874; color: #fff; }
+  .tab-btn:hover:not(.active) { background: #c8dedd; }
+
+  .content { padding: 20px 32px 40px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .card p.note { font-size: 13px; color: #666; margin-bottom: 18px; }
+
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; font-size: 12px; color: #555; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+
+  @media (max-width: 640px) {
+    .header, .tabs, .content { padding-left: 16px; padding-right: 16px; }
+    .tabs { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-bar"></div>
+  <div>
+    <h1>AURA CDT — Applicant Pull &amp; Drawback Survey</h1>
+    <p>10 respondents &nbsp;·&nbsp; 17 factors rated &nbsp;·&nbsp; Cohorts 3–7</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('avg', this)">Average Score by Factor</button>
+  <button class="tab-btn" onclick="showTab('dist', this)">Response Distribution</button>
+</div>
+
+<!-- PANELS -->
+<div class="content">
+
+  <!-- Panel 1: Average scores -->
+  <div id="panel-avg" class="panel active">
+    <div class="card">
+      <p class="note">Average score per factor &nbsp;(−2 = much less likely &nbsp;·&nbsp; 0 = no impact &nbsp;·&nbsp; +2 = much more likely to apply)</p>
+      <div class="chart-wrap" style="height:540px;">
+        <canvas id="avgChart"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-swatch" style="background:#1d7874"></div> Strong pull (≥ 1.0)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#83c5be"></div> Moderate pull (0.4 – 0.99)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#b0d8d5"></div> Weak / neutral (0 – 0.39)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#f4a261"></div> Drawback (negative)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 2: Distribution -->
+  <div id="panel-dist" class="panel">
+    <div class="card">
+      <p class="note">Number of responses in each rating category per factor (n = 10, ordered by average score)</p>
+      <div class="chart-wrap" style="height:560px;">
+        <canvas id="distChart"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-swatch" style="background:#1d7874"></div> Much more likely</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#83c5be"></div> Slightly more likely</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#e0e0e0"></div> No impact</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#f4a261"></div> Slightly less likely</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#e63946"></div> Much less likely</div>
+      </div>
+    </div>
+  </div>
+
+
+</div><!-- end .content -->
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+// Sorted by avg score descending
+const data = [
+  { label: "Topic / Scope",            avg: 1.60, dist: [8, 0, 1, 0, 1] },
+  { label: "Research Project Info",     avg: 1.40, dist: [5, 4, 1, 0, 0] },
+  { label: "Future Industry Career",    avg: 1.10, dist: [6, 2, 1, 0, 1] },
+  { label: "Future Academic Career",    avg: 1.10, dist: [5, 3, 2, 0, 0] },
+  { label: "Industry Engagement",       avg: 1.10, dist: [5, 3, 1, 0, 1] },
+  { label: "Entry Requirements",        avg: 0.90, dist: [5, 2, 2, 1, 0] },
+  { label: "Stipend / Finance",         avg: 0.80, dist: [5, 2, 2, 2, 0] },
+  { label: "Cohort Building",           avg: 0.80, dist: [4, 3, 1, 0, 1] },
+  { label: "Recruitment Process",       avg: 0.60, dist: [3, 2, 5, 0, 0] },
+  { label: "CPD / Learning",            avg: 0.50, dist: [2, 3, 4, 1, 0] },
+  { label: "CDT Website",               avg: 0.50, dist: [4, 3, 1, 2, 1] },
+  { label: "Research Clusters",         avg: 0.33, dist: [2, 1, 4, 0, 2] },
+  { label: "Partner Universities",      avg: 0.30, dist: [1, 5, 2, 0, 2] },
+  { label: "Taught Programme",          avg: 0.30, dist: [1, 3, 4, 2, 0] },
+  { label: "Hull (full programme)",     avg: 0.20, dist: [2, 0, 6, 0, 0] },
+  { label: "Geographic Location",       avg: 0.10, dist: [0, 4, 2, 4, 0] },
+  { label: "Hull Relocation (non-Hull)",avg: -0.50, dist: [0, 0, 5, 4, 0] },
+];
+
+const labels   = data.map(d => d.label);
+const avgs     = data.map(d => d.avg);
+const barColors = data.map(d =>
+  d.avg >= 1.0 ? '#1d7874' :
+  d.avg >= 0.4 ? '#83c5be' :
+  d.avg >= 0   ? '#b0d8d5' : '#f4a261'
+);
+
+// ── TAB LOGIC ────────────────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  // Lazy init charts
+  if (id === 'avg' && !window._avgInit)  { buildAvgChart();  window._avgInit  = true; }
+  if (id === 'dist' && !window._distInit){ buildDistChart(); window._distInit = true; }
+}
+
+// ── CHART 1: Average scores ───────────────────────────────────────────────────
+function buildAvgChart() {
+  const ctx = document.getElementById('avgChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Average score',
+        data: avgs,
+        backgroundColor: barColors,
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.parsed.x.toFixed(2)
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: -2, max: 2,
+          grid: { color: '#eee' },
+          ticks: { font: { size: 12 } },
+          title: { display: true, text: 'Average score', font: { size: 12 } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+// ── CHART 2: Distribution stacked ────────────────────────────────────────────
+function buildDistChart() {
+  const ctx = document.getElementById('distChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'Much more likely',    data: data.map(d => d.dist[0]), backgroundColor: '#1d7874', borderRadius: 0 },
+        { label: 'Slightly more likely',data: data.map(d => d.dist[1]), backgroundColor: '#83c5be', borderRadius: 0 },
+        { label: 'No impact',           data: data.map(d => d.dist[2]), backgroundColor: '#e0e0e0', borderRadius: 0 },
+        { label: 'Slightly less likely',data: data.map(d => d.dist[3]), backgroundColor: '#f4a261', borderRadius: 0 },
+        { label: 'Much less likely',    data: data.map(d => d.dist[4]), backgroundColor: '#e63946', borderRadius: 0 },
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { mode: 'index' }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { color: '#eee' },
+          ticks: { stepSize: 1, font: { size: 12 } },
+          title: { display: true, text: 'Number of responses', font: { size: 12 } }
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { font: { size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+// Init first tab chart on load
+window.addEventListener('DOMContentLoaded', () => {
+  buildAvgChart();
+  window._avgInit = true;
+});
+</script>
+</body>
+</html>
