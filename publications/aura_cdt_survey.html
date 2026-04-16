@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0228)file:///Users/cond2/Library/Application%20Support/Claude/local-agent-mode-sessions/836918a1-3e57-4f91-9c50-d02a64fd0061/59a46d37-3577-4b1a-96d4-ae7b2e6623c5/local_a7e322af-db35-43f4-93a1-c2809dfd23e4/outputs/aura_cdt_survey.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AURA CDT — Applicant Survey Results</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="./aura_cdt_survey_files/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f7f6; color: #1a1a2e; min-height: 100vh; }
@@ -32,6 +32,26 @@
 
   .chart-wrap { position: relative; width: 100%; }
 
+  /* Conclusions */
+  .conclusions { display: flex; flex-direction: column; gap: 14px; }
+  .conclusion-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .conclusion-card.green { border-left: 4px solid #1d7874; }
+  .conclusion-card.amber { border-left: 4px solid #f4a261; }
+  .conclusion-card.red   { border-left: 4px solid #e63946; }
+  .c-icon { font-size: 20px; line-height: 1.5; flex-shrink: 0; }
+  .c-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e; }
+  .c-body { font-size: 13.5px; color: #444; line-height: 1.65; }
+  .tip-card {
+    background: #f0f7f6; border: 1px solid #c8e6e4; border-radius: 12px;
+    padding: 16px 20px; margin-top: 4px;
+  }
+  .tip-card .tip-title { font-size: 13px; font-weight: 700; color: #1d7874; margin-bottom: 6px; }
+  .tip-card .tip-body { font-size: 13px; color: #444; line-height: 1.65; }
+
   /* Legend */
   .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; font-size: 12px; color: #555; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
@@ -56,19 +76,20 @@
 
 <!-- TABS -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="showTab('avg', this)">Average Score by Factor</button>
-  <button class="tab-btn" onclick="showTab('dist', this)">Response Distribution</button>
+  <button class="tab-btn" onclick="showTab(&#39;avg&#39;, this)">Average Score by Factor</button>
+  <button class="tab-btn" onclick="showTab(&#39;dist&#39;, this)">Response Distribution</button>
+  <button class="tab-btn active" onclick="showTab(&#39;conc&#39;, this)">Key Conclusions</button>
 </div>
 
 <!-- PANELS -->
 <div class="content">
 
   <!-- Panel 1: Average scores -->
-  <div id="panel-avg" class="panel active">
+  <div id="panel-avg" class="panel">
     <div class="card">
       <p class="note">Average score per factor &nbsp;(−2 = much less likely &nbsp;·&nbsp; 0 = no impact &nbsp;·&nbsp; +2 = much more likely to apply)</p>
       <div class="chart-wrap" style="height:540px;">
-        <canvas id="avgChart"></canvas>
+        <canvas id="avgChart" width="0" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;"></canvas>
       </div>
       <div class="legend">
         <div class="legend-item"><div class="legend-swatch" style="background:#1d7874"></div> Strong pull (≥ 1.0)</div>
@@ -84,7 +105,7 @@
     <div class="card">
       <p class="note">Number of responses in each rating category per factor (n = 10, ordered by average score)</p>
       <div class="chart-wrap" style="height:560px;">
-        <canvas id="distChart"></canvas>
+        <canvas id="distChart" width="2812" height="896" style="display: block; box-sizing: border-box; height: 560px; width: 1758px;"></canvas>
       </div>
       <div class="legend">
         <div class="legend-item"><div class="legend-swatch" style="background:#1d7874"></div> Much more likely</div>
@@ -96,6 +117,65 @@
     </div>
   </div>
 
+  <!-- Panel 3: Conclusions -->
+  <div id="panel-conc" class="panel active">
+    <div class="conclusions">
+
+      <div class="conclusion-card green">
+        <div class="c-icon">🟢</div>
+        <div>
+          <div class="c-title">PhD topic and research projects are the primary draw</div>
+          <div class="c-body">The topic/scope of the CDT (avg +1.60) and quality of information about research projects (+1.40) are the strongest pull factors — consistently rated positively across almost all respondents. Applicants are motivated by the subject matter first.</div>
+        </div>
+      </div>
+
+      <div class="conclusion-card green">
+        <div class="c-icon">🟢</div>
+        <div>
+          <div class="c-title">Career pathways and industry engagement are highly valued</div>
+          <div class="c-body">Opportunities for a future industry career, future academic career, and stakeholder/industry engagement all scored +1.10. The prospect of making a tangible impact through an industry-connected PhD is a major motivator.</div>
+        </div>
+      </div>
+
+      <div class="conclusion-card amber">
+        <div class="c-icon">🟡</div>
+        <div>
+          <div class="c-title">Stipend and cohort community are moderate positives</div>
+          <div class="c-body">Financial considerations (avg +0.80) and cohort building opportunities (+0.80) are meaningful but inconsistent pull factors. One respondent explicitly suggested that better communication of the stipend's tax-free status and 4-year tenure could strengthen this further.</div>
+        </div>
+      </div>
+
+      <div class="conclusion-card amber">
+        <div class="c-icon">🟡</div>
+        <div>
+          <div class="c-title">Recruitment process and website are appreciated but could do more work</div>
+          <div class="c-body">The recruitment process (+0.60) and CDT website (+0.50) were broadly positive, but one respondent found project listings unclear about physical location. A cleaner distinction of where each project is based could reduce confusion at the point of application.</div>
+        </div>
+      </div>
+
+      <div class="conclusion-card red">
+        <div class="c-icon">🔴</div>
+        <div>
+          <div class="c-title">Hull relocation is the clearest drawback</div>
+          <div class="c-body">Being based at Hull for the first year is the only category with a negative average score (−0.50) and was rated negatively by 4 of 9 applicable respondents. Several noted it is a real barrier for prospective applicants, even if manageable once committed.</div>
+        </div>
+      </div>
+
+      <div class="conclusion-card red">
+        <div class="c-icon">🔴</div>
+        <div>
+          <div class="c-title">Geographic location and partner universities are weak or polarising</div>
+          <div class="c-body">Geographic location averaged just +0.10 with split views, and partner universities scored +0.30 but with two 'Much less' ratings — suggesting that for some, institutional associations can actively deter. Academic supervisor credibility appears to matter more than institutional brand.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-title">💡 Signal from open comments</div>
+        <div class="tip-body">Multiple respondents highlighted that attending webinars, careers fairs and talks by current cohort students — and having clear project listings on the website — were influential. Boosting visibility through events and improving listing clarity (especially around project location) appear to be low-effort, high-return interventions.</div>
+      </div>
+
+    </div>
+  </div>
 
 </div><!-- end .content -->
 
@@ -230,5 +310,6 @@ window.addEventListener('DOMContentLoaded', () => {
   window._avgInit = true;
 });
 </script>
-</body>
-</html>
+
+
+</body></html>
