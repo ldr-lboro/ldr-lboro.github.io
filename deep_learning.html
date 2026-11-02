@@ -83,6 +83,63 @@
 					
 						<div class="blog-content">
 							<h3>
+Graph-Grounded Multimodal Agent for Trustworthy Power-Line Operations and Maintenance</h3>
+							<ul class="blog-meta">
+											<li>
+												S. Verma, <a href="index.html#team">J. Chatterjee </a>, 
+												J. Guo, A. Marar. R. Shankaran, G. Sharma, Z. Guo and A. Mehra			
+											</li>
+								<li>	
+					<a href="https://joyjitchatterjee.github.io/assets/papers/glow-2026-power-line-om.pdf"><i class="fa fa-link"></i></a>Link</li>
+							</ul>
+							<ul class="blog-meta">
+								<abstract style="display:inline" ;>
+									<details open style="display:inline;">
+										<summary>
+											<span style="color:#6195FF">Hide/Show Full Abstract</span>
+										</summary>
+There has been growing application of Unmanned Aerial Vehicles (UAVs) and computer vision to support
+safety-critical inspection activities for power transmission infrastructure. While the past work has largely
+focused on AI-based fault detection, trustworthy O&M decision support also requires contextualizing detected
+defects with component information, severity, engineering knowledge, and operational risk. Foundation VisionLanguage Models (VLMs) can provide fluent and plausible-defect descriptions but remain prone to hallucination.
+Additionally, Retrieval-Augmented Generation (RAG) methods leveraging operations and maintenance (O&M)
+documentation cannot represent complex engineering dependencies in an auditable and transparent manner.
+We propose a graph-grounded, physics-aware agentic framework to tackle this challenge for power-line O&M,
+wherein domain-specific knowledge is fused from three different evidence streams: structured visual claims
+from a fine-tuned YOLO model combined with a VLM adapted via Many-Shot In-Context Learning, leveraging
+annotated defects and O&M actions from electrical engineers; a knowledge graph curated by domain specialists
+that integrates components, defects, severities, failure modes, engineering standards, risks, and maintenance
+actions; and a physics-informed simulation dataset, demonstrated through a reduced-order Stockbridge-damper
+case study. An agentic workflow combines these sources into a single auditable decision traceable from image
+to work order. Each claim is validated against the knowledge graph and physics evidence before a severityconditioned maintenance action and work order are generated with deterministic guardrails and validation
+checks. On a 51-sample held out validation set, the perception pipeline achieved an F1 score of 0.83, while human
+evaluation of 11 work orders yielded a KG supported faithfulness score of 0.88. These results demonstrate the
+feasibility of evidence-grounded and traceable O&M decision support, while engineering correctness and broader
+operational generalisation remain subjects for further validation.
+									</details>
+								</abstract>
+							</ul>
+							<ul class="blog-meta">
+								<li><em>GLOW@ISWC’26: 2nd Workshop on Graph-enhanced LLMs for trustworthy Web data management, October 25–26, 2026, Bari, Italy</em></li>
+							</ul>
+							<!-- blog tags -->
+							<div class="blog-tags">
+								<a href="sustainability.html#publications">
+									<i class="fa fa-tag"></i>Sustainability</a>
+					<a href="deep_learning.html#publications">
+									<i class="fa fa-tag"></i>Deep Learning</a>	
+																									
+							</div>
+						</div><br>
+						<!-- blog tags -->	
+
+
+			 <!-- publication entry -->			 
+
+			 <!-- publication entry -->
+					
+						<div class="blog-content">
+							<h3>
 Emotionally intelligent preference optimization for conversational behavior change support</h3>
 							<ul class="blog-meta">
 											<li>
@@ -116,7 +173,7 @@ Procrastination negatively affects productivity and well-being, yet current larg
 							</ul>
 							<!-- blog tags -->
 							<div class="blog-tags">
-								<a href="nlp#publications">
+								<a href="nlp.html#publications">
 									<i class="fa fa-tag"></i>Natural Language Processing</a>
 					<a href="deep_learning.html#publications">
 									<i class="fa fa-tag"></i>Deep Learning</a>	
