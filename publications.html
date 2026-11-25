@@ -121,6 +121,46 @@ This paper explores the role of Large Language Models (LLMs) in promoting sustai
 
 
 			 <!-- publication entry -->			 
+
+
+			 <!-- publication entry -->
+					
+						<div class="blog-content">
+							<h3>Class-aware distillation for federated fraud detection</h3>
+							<ul class="blog-meta">
+											<li>
+												G. Adebiyi. A. Moustafa and <a href="index.html#team">N. Dethlefs</a> 
+								</li>
+								<li>	
+					<a href="https://www.sciencedirect.com/science/article/pii/S1568494626021253"><i class="fa fa-link"></i></a>Link</li>
+							</ul>
+							<ul class="blog-meta">
+								<abstract style="display:inline" ;>
+									<details open style="display:inline;">
+										<summary>
+											<span style="color:#6195FF">Hide/Show Full Abstract</span>
+										</summary>
+Credit card fraud continues to pose a substantial threat to financial institutions globally, necessitating advanced machine learning solutions such as Federated Learning (FL). While FL addresses data silos and offers privacy benefits, it faces class imbalance and the communication overhead of frequent model updates between institutions. Capturing subtle, evolving fraud patterns often requires larger, more complex models that shallow models may miss, but exchanging larger models increases communication cost. Knowledge distillation can reduce this cost by transferring a larger teacher’s knowledge into a compact model, while exchanging a compact model. However, standard distillation may propagate majority-class bias, and deploying it everywhere adds computation that offsets the efficiency gained. This paper proposes Class-Aware Distillation for Federated Fraud Detection (CADFFD), which combines two complementary mechanisms within a federated averaging procedure. A targeted deployment first determines where the teacher is used, instantiating it only where the compact model struggles to learn local fraud patterns. Once deployed, Confidence-Correctness Calibrated Distillation (CCCD) calibrates what is transferred, weighting knowledge by the teacher’s confidence and label agreement to mitigate majority-class bias. An adaptive focal loss further adjusts its focusing strength per institution and per round to track local class imbalance. Evaluated on the European and IEEE-CIS datasets against FedAvg, Vanilla KD, and FedKD, CADFFD leads on F1-score and fraud ranking by up to 18% above the strongest baseline, while cutting false positives five- to thirteen-fold and achieving  ≈65%lower teacher-training compute than other distillation methods.
+									</details>
+								</abstract>
+							</ul>
+							<ul class="blog-meta">
+								<li><em>Applied Soft Computing. January 2027</em></li>
+							</ul>
+							<!-- blog tags -->
+							<div class="blog-tags">
+								<a href="nlp.html#publications">
+									<i class="fa fa-tag"></i>Natural Language Processing</a>
+					<a href="deep_learning.html#publications">
+									<i class="fa fa-tag"></i>Deep Learning</a>	
+																									
+							</div>
+						</div><br>
+						<!-- blog tags -->	
+
+
+			 <!-- publication entry -->			 
+
 			 
 			 <!-- publication entry -->
 					
